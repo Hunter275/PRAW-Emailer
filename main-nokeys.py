@@ -38,17 +38,21 @@ subject = ""
 
 # Stream Submissions
 def run():
+    # If the bot does timeout then we don't want to get the same emails
+    # We accomplish this by checking that the submissions are new as of run time
+    # Reddit submissions are ~3 hours from Eastern Time where I live, adjust as needed
     startTime = float(time.time()) + 28800
     while True:
         try:
             for submission in reddit.subreddit(subreddit).stream.submissions():
-                if submission.created > startTime:
+                if submission.created > startTime: # Check the time
                     if criteria in str(submission.title).lower():
                         print submission.title
                         print submission.url
                         print submission.shortlink
                         sendemail.send_email(email, subject, submission.title.split(" ", 1)[1] + "\n" + submission.url + "\n" + submission.shortlink)
         except PrawcoreException:
+            # Timeouts happen a lot, to keep the bot running wait 60 seconds and then start again
             time.sleep(60)
             run()
 
