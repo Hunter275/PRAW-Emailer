@@ -5,4 +5,4 @@ Emails you new submissions to a subreddit that fit a criteria
 
 -You must rename main-nokeys.py to main.py and sendemail-nokeys.py to sendemail.py
 
-Requires: PRAW, urllib3
+Requires: Python 2.7, PRAW, urllib3
